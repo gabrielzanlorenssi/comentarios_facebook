@@ -72,6 +72,7 @@ for (j in seq_along(comment$comments$id)) {
 }
 
 # bind all
+
 com[[page]] <- unlist(x)
 rep[[page]] <- unlist(y)
 }
