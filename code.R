@@ -43,24 +43,53 @@ paginas <-
 
 # raspagem ----------------------------------------------------------------
 
-i = 3
+com <- list()
+rep <- list()
 
-posts <- getPage("nexo.jornal", token = fb_oauth, n = 100) 
-comment <- getPost(post = posts$id[i], token = fb_oauth)
-y <- comment$post
-x <- comment$comments
-
-a <- Rfacebook::searchPages("nexo", token = fb_oauth, n = 10)
-
-
-replies <- getCommentReplies(comment_id = comment$comments$id[1], token = fb_oauth)
-
-a <- replies$comment
-b <- replies$replies
+for (page in seq_along(paginas)) {
+# get posts
+posts <- getPage(page, fb_oauth, 
+                 since='2018/01/01', 
+                 until='2018/01/31', n = 1000) 
 
 
-page_token = getPageToken("nexo.jornal", token = fb_oauth)
-c <- getInsights("nexo.jornal", token=page_token, metric='page_fans_country', period='lifetime')
+x <- list()
+k = 1
+for (i in seq_along(posts$id)) {
+# comments
+comment <- getPost(post = posts$id[i], fb_oauth, n = 5000)
+x[[i]] <- comment$comments$message
+
+
+# replies
+y <- list()
+for (j in seq_along(comment$comments$id)) {
+  replies <- getCommentReplies(comment_id = comment$comments$id[j], 
+                               n = 1000, token = fb_oauth)
+  y[[k]] <- replies$replies$message
+  k = k + 1
+}
+}
+
+# bind all
+com[[page]] <- unlist(x)
+rep[[page]] <- unlist(y)
+}
+
+
+
+r = sample(x = c(1:length(com)), size = 1)
+sample(com[[r]])
+
+
+
+
+write.csv2(com, file='com.csv', row.names=F, fileEncoding = "latin1")
+
+
+
+
+
 
 
 
