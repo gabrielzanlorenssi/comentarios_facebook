@@ -48,10 +48,9 @@ rep <- list()
 
 for (page in seq_along(paginas)) {
 # get posts
-posts <- getPage(page, fb_oauth, 
+posts <- getPage(paginas[page], fb_oauth, 
                  since='2018/01/01', 
-                 until='2018/01/31', n = 1000) 
-
+                 until='2018/01/31', n = 25) 
 
 x <- list()
 k = 1
