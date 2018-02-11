@@ -2,6 +2,20 @@ library(shiny)
 library(shinythemes)
 
 # UI ----------------------------------------------------------------------
+paginas <-
+  c(
+    "Lula",
+    "jairmessias.bolsonaro",
+    "cirogomesoficial",
+    "marinasilva.oficial",
+    "LucianoHuck",
+    "geraldoalckmin",
+    "manueladavila",
+    "guilhermeboulos.oficial",
+    "PlinioSampaioJr",
+    "hmeirellesoficial",
+    "RodrigoMaiaRJ")
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(theme = shinytheme("flatly"),
@@ -12,10 +26,17 @@ ui <- fluidPage(theme = shinytheme("flatly"),
       sidebarPanel(
         radioButtons(inputId = "select",
                     label = "Selecione um pré-candidato",
-                    choices = c("Lula (PT)", "Marina (REDE)", "Alckmin (PSDB)")),
-        actionButton(inputId = "action",
-                     label = "Gerar")),
-      # Show a plot of the generated distribution
+                    choices = c("Lula (PT)", "Bolsonaro (PSL)",
+                                "Ciro Gomes (PDT)", "Marina Silva (REDE)", 
+                                "Luciano Huck (s/partido)", "Geraldo Alckmin (PSDB)",
+                                "Manuela D'Ávila (PCdoB)", "Guilherme Boulos (PSOL)",
+                                "Plínio Jr. (PSOL)", "Henrique Meirelles (PSD)",
+                                "Rodrigo Maia (DEM)")),
+      actionButton(inputId = "action",
+                     label = "Gerar"),
+      actionLink(inputId = "link",
+                   label = "GitHub")),
+      # Show text
       mainPanel(
         textOutput("output")
       )
