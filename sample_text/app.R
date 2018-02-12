@@ -1,10 +1,10 @@
 library(shiny)
 library(shinythemes)
+library(dplyr)
 
 # UI ----------------------------------------------------------------------
 paginas <-
-  c(
-    "Lula",
+  c("Lula",
     "jairmessias.bolsonaro",
     "cirogomesoficial",
     "marinasilva.oficial",
@@ -33,9 +33,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 "Plínio Jr. (PSOL)", "Henrique Meirelles (PSD)",
                                 "Rodrigo Maia (DEM)")),
       actionButton(inputId = "action",
-                     label = "Gerar"),
-      actionLink(inputId = "link",
-                   label = "GitHub")),
+                     label = "Gerar")),
       # Show text
       mainPanel(
         textOutput("output")
@@ -46,18 +44,27 @@ ui <- fluidPage(theme = shinytheme("flatly"),
 
 # Server ------------------------------------------------------------------
 
-
+choices = c("Lula (PT)", "Bolsonaro (PSL)",
+            "Ciro Gomes (PDT)", "Marina Silva (REDE)", 
+            "Luciano Huck (s/partido)", "Geraldo Alckmin (PSDB)",
+            "Manuela D'Ávila (PCdoB)", "Guilherme Boulos (PSOL)",
+            "Plínio Jr. (PSOL)", "Henrique Meirelles (PSD)",
+            "Rodrigo Maia (DEM)")
+            
+            
 
 # Define server logic required to draw a histogram
+lista <- readRDS("./df_final.rds")
+
 server <- function(input, output) {
-  lista <- readRDS("./lista.rds")
   text <- eventReactive(input$action, {
-    r <- sample(seq_along(lista), size = 1)
-    lista[r]
+    lista2 <- lista %>%  filter(choice %in% input$select)
+    r <- sample(seq_along(lista2$text), size = 1)
+    lista2$text[r]
   })
 
    output$output <- renderText({
-    paste("Texto:", text(), sep=" ")
+    paste(text(), sep=" ")
    })
 }
 

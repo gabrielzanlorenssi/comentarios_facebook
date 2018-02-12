@@ -5,8 +5,8 @@ account: gabrielzanlorenssi2
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 278026
-bundleId: 1219058
+bundleId: 1219280
 url: https://gabrielzanlorenssi2.shinyapps.io/comentarios/
-when: 1518437386.14199
+when: 1518448063.36702
 asMultiple: FALSE
 asStatic: FALSE

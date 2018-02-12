@@ -46,17 +46,17 @@ paginas <-
 com <- list()
 rep <- list()
 
-for (page in seq_along(paginas)) {
+for (page in 6:11) {
 # get posts
 posts <- getPage(paginas[page], fb_oauth, 
                  since='2018/01/01', 
-                 until='2018/01/31', n = 25) 
+                 until='2018/01/31', n = 30) 
 
 x <- list()
 k = 1
 for (i in seq_along(posts$id)) {
 # comments
-comment <- getPost(post = posts$id[i], fb_oauth, n = 25)
+comment <- getPost(post = posts$id[i], fb_oauth, n = 20)
 x[[i]] <- comment$comments$message
 
 
@@ -64,7 +64,7 @@ x[[i]] <- comment$comments$message
 y <- list()
 for (j in seq_along(comment$comments$id)) {
   replies <- getCommentReplies(comment_id = comment$comments$id[j], 
-                               n = 25, token = fb_oauth)
+                               n = 5, token = fb_oauth)
   y[[k]] <- replies$replies$message
   k = k + 1
 }
@@ -74,10 +74,33 @@ for (j in seq_along(comment$comments$id)) {
 
 com[[page]] <- unlist(x)
 rep[[page]] <- unlist(y)
+print(page)
 }
 
+saveRDS(com, file="com.rds")
+saveRDS(rep, file="rep.rds")
 
-lista <- com[[1]]
+# Generate a data frame ---------------------------------------------------
+choices = c("Lula (PT)", "Bolsonaro (PSL)",
+            "Ciro Gomes (PDT)", "Marina Silva (REDE)", 
+            "Luciano Huck (s/partido)", "Geraldo Alckmin (PSDB)",
+            "Manuela D'Ávila (PCdoB)", "Guilherme Boulos (PSOL)",
+            "Plínio Jr. (PSOL)", "Henrique Meirelles (PSD)",
+            "Rodrigo Maia (DEM)")
+
+# binding
+df_final <- c()
+for (i in seq_along(choices)) {
+df1 <- as.data.frame(com[[i]])
+colnames(df1) <- "text"
+df1$choice <- choices[i]
+print(i)
+df_final <- rbind(df_final, df1)
+}
+
+# save
+saveRDS(df_final, file = "./sample_text/df_final.rds")
+
 
 
 
