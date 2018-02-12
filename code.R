@@ -56,7 +56,7 @@ x <- list()
 k = 1
 for (i in seq_along(posts$id)) {
 # comments
-comment <- getPost(post = posts$id[i], fb_oauth, n = 5000)
+comment <- getPost(post = posts$id[i], fb_oauth, n = 25)
 x[[i]] <- comment$comments$message
 
 
@@ -64,7 +64,7 @@ x[[i]] <- comment$comments$message
 y <- list()
 for (j in seq_along(comment$comments$id)) {
   replies <- getCommentReplies(comment_id = comment$comments$id[j], 
-                               n = 1000, token = fb_oauth)
+                               n = 25, token = fb_oauth)
   y[[k]] <- replies$replies$message
   k = k + 1
 }
@@ -77,16 +77,7 @@ rep[[page]] <- unlist(y)
 }
 
 
-
-r = sample(x = c(1:length(com)), size = 1)
-sample(com[[r]])
-
-
-
-
-write.csv2(com, file='com.csv', row.names=F, fileEncoding = "latin1")
-
-
+lista <- com[[1]]
 
 
 

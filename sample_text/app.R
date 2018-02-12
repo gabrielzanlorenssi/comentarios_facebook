@@ -50,13 +50,14 @@ ui <- fluidPage(theme = shinytheme("flatly"),
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+  lista <- readRDS("./lista.rds")
   text <- eventReactive(input$action, {
-    r <- sample(seq_along(cars$speed), size = 1)
-    cars$speed[r]
+    r <- sample(seq_along(lista), size = 1)
+    lista[r]
   })
 
    output$output <- renderText({
-    paste("Value:", text(), sep="")
+    paste("Texto:", text(), sep=" ")
    })
 }
 
