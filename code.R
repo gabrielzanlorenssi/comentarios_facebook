@@ -11,8 +11,8 @@ library(tidyr)
 
 fb_oauth <-
   fbOAuth(
-    app_id = "437994209933601",
-    app_secret = "327a6e06bfdb9616c82ec8d91a73b5ec",
+    app_id = "[insert your app id here]",
+    app_secret = "[insert your app secret here]",
     extended_permissions = TRUE
   )
 
@@ -46,7 +46,7 @@ paginas <-
 com <- list()
 rep <- list()
 
-for (page in 6:11) {
+for (page in seq_along(paginas)) {
 # get posts
 posts <- getPage(paginas[page], fb_oauth, 
                  since='2018/01/01', 
@@ -70,6 +70,7 @@ for (j in seq_along(comment$comments$id)) {
 }
 }
 
+  
 # bind all
 
 com[[page]] <- unlist(x)
@@ -88,7 +89,7 @@ choices = c("Lula (PT)", "Bolsonaro (PSL)",
             "Plínio Jr. (PSOL)", "Henrique Meirelles (PSD)",
             "Rodrigo Maia (DEM)")
 
-# binding
+# final binding
 df_final <- c()
 for (i in seq_along(choices)) {
 df1 <- as.data.frame(com[[i]])
